@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witamy w Aplikacji</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.12/angular-material.min.css">
+</head>
+<body ng-app="myApp" ng-controller="MainController">
+    <div layout="column" layout-align="center center" style="height: 100vh;">
+        <h1>Witamy w aplikacji AngularJS na Symfony!</h1>
+        <p>{{ message }}</p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.12/angular-material.min.js"></script>
+    <script>
+        angular.module('myApp', ['ngMaterial'])
+            .controller('MainController', function($scope) {
+                $scope.message = 'To jest strona testowa dla aplikacji Symfony z AngularJS!';
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<form ng-submit="saveVehicle()">
+    <md-input-container>
+      <label>Brand</label>
+      <input type="text" ng-model="vehicle.brand" required>
+    </md-input-container>
+    
+    <md-input-container>
+      <label>Registration Number</label>
+      <input type="text" ng-model="vehicle.registrationNumber" required>
+    </md-input-container>
+    
+    <md-input-container>
+      <label>VIN</label>
+      <input type="text" ng-model="vehicle.vin" required>
+    </md-input-container>
+    
+    <address-component address="vehicle.address"></address-component>
+  
+    <md-button type="submit">Save</md-button>
+  </form>
+  

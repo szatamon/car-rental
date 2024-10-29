@@ -1,5 +1,41 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+# config/routes/routes.yaml
+
+vehicle_list:
+    path: /api/vehicles
+    controller: App\Module\Vehicle\Controller\VehicleController::list
+    methods: GET
+
+vehicle_create:
+    path: /api/vehicles
+    controller: App\Module\Vehicle\Controller\VehicleController::create
+    methods: POST
+
+vehicle_show:
+    path: /api/vehicles/{id}
+    controller: App\Module\Vehicle\Controller\VehicleController::show
+    methods: GET
+
+vehicle_update:
+    path: /api/vehicles/{id}
+    controller: App\Module\Vehicle\Controller\VehicleController::update
+    methods: PUT
+
+vehicle_delete:
+    path: /api/vehicles/{id}
+    controller: App\Module\Vehicle\Controller\VehicleController::delete
+    methods: DELETE
+
+address_list:
+    path: /api/addresses
+    controller: App\Module\Address\Controller\AddressController::list
+    methods: GET
+
+address_create:
+    path: /api/addresses
+    controller: App\Module\Address\Controller\AddressController::create
+    methods: POST
+
+carbrand_list:
+    path: /api/car-brands
+    controller: App\Module\CarBrand\Controller\CarBrandController::list
+    methods: GET

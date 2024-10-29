@@ -5,8 +5,7 @@ services:
     image: php:8.1-fpm
     container_name: php-container
     volumes:
-      - ./car-rental:/var/www/html
-    working_dir: /var/www/html
+      - .:/var/www
     networks:
       - app-network
   

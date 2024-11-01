@@ -30,11 +30,11 @@ class Vehicle
     #[ORM\JoinColumn(nullable: false)]
     private CarBrand $brand;
 
-    #[ORM\ManyToOne(targetEntity: Address::class, nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Address::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?Address $clientAddress = null;
 
-    #[ORM\ManyToOne(targetEntity: Address::class, nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Address::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?Address $currentLocation = null;
 

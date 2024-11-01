@@ -15,5 +15,14 @@ class CarBrand
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private string $name;
 
-    // Gettery i settery dla każdego pola
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
 }

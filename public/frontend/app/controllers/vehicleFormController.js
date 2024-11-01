@@ -1,19 +1,19 @@
-angular.module('CarRentalApp').controller('VehicleFormController', ['$scope', '$routeParams', '$location', 'VehicleService', function($scope, $routeParams, $location, VehicleService) {
-    $scope.vehicle = {};
-    const vehicleId = $routeParams.id;
-  
-    if (vehicleId) {
-      VehicleService.getVehicle(vehicleId).then(response => {
-        $scope.vehicle = response.data;
-      });
+angular.module('CarRentalApp').controller('VehicleFormController', ['$scope', 'VehicleService', '$routeParams', function($scope, VehicleService, $routeParams) {
+  $scope.vehicle = {};
+
+  if ($routeParams.id) {
+    VehicleService.getVehicle($routeParams.id).then(function(response) {
+      $scope.vehicle = response.data;
+    });
+  }
+
+  $scope.saveVehicle = function() {
+    if ($scope.vehicle.id) {
+      VehicleService.updateVehicle($scope.vehicle);
+    } else {
+      VehicleService.createVehicle($scope.vehicle);
     }
-  
-    $scope.saveVehicle = () => {
-      if (vehicleId) {
-        VehicleService.updateVehicle($scope.vehicle).then(() => $location.path('/vehicles'));
-      } else {
-        VehicleService.addVehicle($scope.vehicle).then(() => $location.path('/vehicles'));
-      }
-    };
-  }]);
+  };
+}]);
+
   

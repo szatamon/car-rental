@@ -3,8 +3,8 @@
 namespace App\Module\Vehicle\Controller;
 
 use App\Module\Vehicle\Entity\Vehicle;
-// use App\Module\CarBrand\Entity\CarBrand;
-// use App\Module\Adress\Entity\Address;
+use App\Module\CarBrand\Entity\CarBrand;
+use App\Module\Adress\Entity\Address;
 use App\Module\Vehicle\Repository\VehicleRepository;
 use App\Module\CarBrand\Repository\CarBrandRepository;
 use App\Module\Address\Repository\AddressRepository;

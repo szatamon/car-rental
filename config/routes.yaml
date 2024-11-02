@@ -37,5 +37,5 @@ address_create:
 
 carbrand_list:
     path: /api/car-brands
-    controller: App\Module\CarBrand\Controller\CarBrandController::list
+    controller: App\Module\CarBrand\Controller\CarBrandController::getAllCarBrands
     methods: GET

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\Module\CarBrand\DataFixtures;
 
-use App\Module\CarBrand\Entity\CarBrand;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use App\Module\CarBrand\Entity\CarBrand;
 
-class AppFixtures extends Fixture
+class CarBrandFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {

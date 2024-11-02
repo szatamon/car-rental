@@ -1,4 +1,4 @@
-angular.module('CarRentalApp').controller('VehicleFormController', ['$scope', 'VehicleService', '$routeParams', function($scope, VehicleService, $routeParams) {
+angular.module('CarRentalApp').controller('VehicleFormController', ['$scope', 'VehicleService', 'CarBrandService', '$routeParams', function($scope, VehicleService, CarBrandService, $routeParams) {
   $scope.vehicle = {};
 
   if ($routeParams.id) {
@@ -6,6 +6,10 @@ angular.module('CarRentalApp').controller('VehicleFormController', ['$scope', 'V
       $scope.vehicle = response.data;
     });
   }
+
+  CarBrandService.getAllBrands().then(function(response) {
+    $scope.carBrands = response.data;
+  });
 
   $scope.saveVehicle = function() {
     if ($scope.vehicle.id) {

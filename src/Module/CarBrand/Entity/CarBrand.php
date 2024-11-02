@@ -15,11 +15,19 @@ class CarBrand
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private string $name;
 
+    // Getter dla id
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    // Getter dla name
     public function getName(): string
     {
         return $this->name;
     }
 
+    // Setter dla name
     public function setName(string $name): self
     {
         $this->name = $name;

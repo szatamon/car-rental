@@ -1,28 +1,38 @@
-<md-list>
-  <md-subheader class="md-no-sticky">Vehicle List</md-subheader>
+<div ng-controller="VehicleListController">
+  <div ng-show="loading" layout="row" layout-align="center center">
+    <p>Loading vehicles...</p>
+  </div>
 
-  <md-list-item>
-    <p><strong>Brand</strong> - <strong>Registration Number</strong> - <strong>VIN</strong> - <strong>Address</strong></p>
-  </md-list-item>
-  <md-divider></md-divider>
+  <div ng-show="loadError" layout="row" layout-align="center center" style="margin-top: 16px;">
+    <p>Failed to load vehicles. Please check your internet connection and try again.</p>
+    <md-button class="md-raised md-warn" ng-click="loadVehicles()">Retry</md-button>
+  </div>
 
-  <md-list-item ng-repeat="vehicle in vehicles">
-    <div layout="row" layout-align="space-between center" style="width: 100%;">
-      <p>
-        {{ vehicle.brand }} - {{ vehicle.registrationNumber }} - {{ vehicle.vin }}
-      </p>
+  <md-list ng-show="!loading && !loadError">
+    <md-subheader class="md-no-sticky">Vehicle List</md-subheader>
 
-      <div ng-if="vehicle.address">
-        <address-component address="vehicle.address" mode="view"></address-component>
+    <md-list-item>
+      <p><strong>Brand</strong> - <strong>Registration Number</strong> - <strong>VIN</strong> - <strong>Address</strong></p>
+    </md-list-item>
+    <md-divider></md-divider>
+
+    <md-list-item ng-repeat="vehicle in vehicles">
+      <div layout="row" layout-align="space-between center" style="width: 100%;">
+        <p>
+          {{ vehicle.brand }} - {{ vehicle.registrationNumber }} - {{ vehicle.vin }}
+        </p>
+
+        <div ng-if="vehicle.address">
+          <address-component address="vehicle.address" mode="view"></address-component>
+        </div>
+
+        <div>
+          <md-button class="md-warn" ng-click="deleteVehicle(vehicle)">Delete</md-button>
+          <md-button class="md-primary" ng-href="#!/vehicles/edit/{{ vehicle.id }}">Edit</md-button>
+        </div>
       </div>
+    </md-list-item>
+  </md-list>
 
-      <div>
-        <md-button class="md-warn" ng-click="deleteVehicle(vehicle)">Delete</md-button>
-
-        <md-button class="md-primary" ng-href="#!/vehicles/edit/{{ vehicle.id }}">Edit</md-button>
-      </div>
-    </div>
-  </md-list-item>
-</md-list>
-
-<md-button class="md-raised md-primary" ng-href="#!/vehicles/add">Add New Vehicle</md-button>
+  <md-button class="md-raised md-primary" ng-href="#!/vehicles/add">Add New Vehicle</md-button>
+</div>

@@ -1,11 +1,20 @@
 angular.module('CarRentalApp').controller('VehicleListController', ['$scope', 'VehicleService', function($scope, VehicleService) {
   $scope.vehicles = [];
+
+  $scope.loadError = false;
+  $scope.loading = false;
   
     const loadVehicles = () => {
+      $scope.loading = true;
+      $scope.loadError = false;
+
       VehicleService.getVehicles().then(response => {
         $scope.vehicles = response.data;
+        $scope.loading = false;
       }).catch(error => {
         console.error('Error loading vehicles:', error);
+        $scope.loadError = true;
+        $scope.loading = false;
       });
     };
   

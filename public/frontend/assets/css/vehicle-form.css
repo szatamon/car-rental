@@ -1,0 +1,60 @@
+form[name="vehicleForm"] md-input-container {
+  display: inline-block;
+  min-width: 200px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.save-button:disabled {
+  background-color: grey;
+  color: #ddd;
+  cursor: not-allowed;
+}
+
+.md-input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  position: absolute;
+  bottom: -20px;
+  color: red;
+  font-size: 12px;
+}
+
+.md-input-container .error-message.ng-hide {
+  display: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.address-form .form-input:focus {
+  border-color: #007bff;
+}

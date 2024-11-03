@@ -1,9 +1,28 @@
 <md-list>
-    <md-list-item ng-repeat="vehicle in vehicles">
-      <p>{{ vehicle.brand }} - {{ vehicle.registrationNumber }}</p>
-      <md-button ng-click="deleteVehicle(vehicle)">Delete</md-button>
-      <md-button ng-href="#!/vehicles/edit/{{ vehicle.id }}">Edit</md-button>
-    </md-list-item>
-  </md-list>
-  <md-button ng-href="#!/vehicles/add">Add New Vehicle</md-button>
-  
+  <md-subheader class="md-no-sticky">Vehicle List</md-subheader>
+
+  <md-list-item>
+    <p><strong>Brand</strong> - <strong>Registration Number</strong> - <strong>VIN</strong> - <strong>Address</strong></p>
+  </md-list-item>
+  <md-divider></md-divider>
+
+  <md-list-item ng-repeat="vehicle in vehicles">
+    <div layout="row" layout-align="space-between center" style="width: 100%;">
+      <p>
+        {{ vehicle.brand }} - {{ vehicle.registrationNumber }} - {{ vehicle.vin }}
+      </p>
+
+      <div ng-if="vehicle.address">
+        <address-component address="vehicle.address" mode="view"></address-component>
+      </div>
+
+      <div>
+        <md-button class="md-warn" ng-click="deleteVehicle(vehicle)">Delete</md-button>
+
+        <md-button class="md-primary" ng-href="#!/vehicles/edit/{{ vehicle.id }}">Edit</md-button>
+      </div>
+    </div>
+  </md-list-item>
+</md-list>
+
+<md-button class="md-raised md-primary" ng-href="#!/vehicles/add">Add New Vehicle</md-button>

@@ -1,25 +1,69 @@
-<form ng-submit="saveVehicle()">
-    <md-input-container>
-      <label>Brand</label>
-      <md-select ng-model="vehicle.brand" required>
-        <md-option ng-repeat="brand in carBrands" ng-value="brand">
-          {{ brand.name }}
-        </md-option>
-      </md-select>
-    </md-input-container>
-    
-    <md-input-container>
-      <label>Registration Number</label>
-      <input type="text" ng-model="vehicle.registrationNumber" required>
-    </md-input-container>
-    
-    <md-input-container>
-      <label>VIN</label>
-      <input type="text" ng-model="vehicle.vin" required>
-    </md-input-container>
-    
-    <!-- <address-component address="vehicle.address"></address-component> -->
-  
-    <md-button type="submit">Save</md-button>
-  </form>
-  
+<form ng-submit="saveVehicle()" name="vehicleForm" novalidate layout="column" layout-align="start center">
+  <md-input-container>
+    <label>Brand</label>
+    <md-select ng-model="vehicle.brand" name="brand" required>
+      <md-option ng-repeat="brand in carBrands" ng-value="brand">
+        {{ brand.name }}
+      </md-option>
+    </md-select>
+    <div ng-show="vehicleForm.brand.$touched && vehicleForm.brand.$invalid" class="error-message">
+      <div ng-show="vehicleForm.brand.$error.required">Brand is required.</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Registration Number</label>
+    <input 
+      type="text" 
+      ng-model="vehicle.registrationNumber" 
+      name="registrationNumber" 
+      required 
+    />
+    <div ng-show="vehicleForm.registrationNumber.$touched && vehicleForm.registrationNumber.$invalid" class="error-message">
+      <div ng-show="vehicleForm.registrationNumber.$error.required">Registration Number is required.</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>VIN</label>
+    <input 
+      type="text" 
+      ng-model="vehicle.vin" 
+      name="vin" 
+      ng-pattern="/^(?!.*[OqQi])([A-HJ-NPR-Z0-9]{17})$/" 
+      required 
+    />
+    <div ng-show="vehicleForm.vin.$touched && vehicleForm.vin.$invalid" class="error-message">
+      <div ng-show="vehicleForm.vin.$error.required">VIN is required.</div>
+      <div ng-show="vehicleForm.vin.$error.pattern">
+        VIN is not valid. It must be 17 characters long and cannot contain the letters I, O, or Q.
+      </div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Customer Email</label>
+    <input 
+      type="email" 
+      ng-model="vehicle.clientEmail" 
+      name="clientEmail" 
+      ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" 
+    />
+    <div ng-show="vehicleForm.clientEmail.$touched && vehicleForm.clientEmail.$invalid" class="error-message">
+      <div ng-show="vehicleForm.clientEmail.$error.pattern">Please enter a valid email address.</div>
+    </div>
+  </md-input-container>
+
+  <div ng-show="vehicle.clientEmail">
+    <h3>Customer Address</h3>
+    <address-component address="vehicle.customerAddress" mode="edit"></address-component>
+  </div>
+
+  <md-button 
+    type="submit" 
+    class="save-button" 
+    ng-disabled="vehicleForm.brand.$invalid || vehicleForm.registrationNumber.$invalid || vehicleForm.vin.$invalid"
+  >
+    Save
+  </md-button>
+</form>

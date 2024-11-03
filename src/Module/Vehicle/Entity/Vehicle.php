@@ -7,6 +7,8 @@ use App\Module\Address\Entity\Address;
 use App\Module\CarBrand\Entity\CarBrand;
 
 #[ORM\Entity()]
+#[ORM\Table(name: 'vehicle')]
+#[ORM\UniqueConstraint(name: 'unique_vin', columns: ['vin'])]
 class Vehicle
 {
     #[ORM\Id]
@@ -17,11 +19,11 @@ class Vehicle
     #[ORM\Column(type: 'string', length: 255)]
     private string $registrationNumber;
 
-    #[ORM\Column(type: 'string', length: 17)]
+    #[ORM\Column(type: 'string', length: 17, unique: true)]
     private string $vin;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private string $clientEmail;
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private ?string $clientEmail = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isRented = false;
@@ -37,8 +39,6 @@ class Vehicle
     #[ORM\ManyToOne(targetEntity: Address::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?Address $currentLocation = null;
-
-    // Gettery i settery dla każdego pola
 
     public function getId(): int
     {
@@ -67,14 +67,15 @@ class Vehicle
         return $this;
     }
 
-    public function getClientEmail(): string
+    public function getClientEmail(): ?string
     {
         return $this->clientEmail;
     }
-
-    public function setClientEmail(string $clientEmail): self
+    
+    public function setClientEmail(?string $clientEmail): self
     {
         $this->clientEmail = $clientEmail;
+        $this->updateRentalStatus();
         return $this;
     }
 
@@ -83,10 +84,9 @@ class Vehicle
         return $this->isRented;
     }
 
-    public function setIsRented(bool $isRented): self
+    private function updateRentalStatus(): void
     {
-        $this->isRented = $isRented;
-        return $this;
+        $this->isRented = !empty($this->clientEmail);
     }
 
     public function getBrand(): CarBrand
@@ -116,9 +116,8 @@ class Vehicle
         return $this->currentLocation;
     }
 
-    public function setCurrentLocation(?Address $currentLocation): self
+    protected function updateCurrentLocation(Address $newLocation): void
     {
-        $this->currentLocation = $currentLocation;
-        return $this;
+        $this->currentLocation = $newLocation;
     }
 }

@@ -1,0 +1,63 @@
+<div class="address-form">
+
+  <div ng-if="$ctrl.mode === 'view'">
+    <p><strong>Street:</strong> {{$ctrl.address.street}}</p>
+    <p><strong>City:</strong> {{$ctrl.address.city}}</p>
+    <p><strong>State:</strong> {{$ctrl.address.state}}</p>
+    <p><strong>Zip Code:</strong> {{$ctrl.address.zipCode}}</p>
+    <p><strong>Country:</strong> {{$ctrl.address.country}}</p>
+  </div>
+
+  <div ng-if="$ctrl.mode === 'edit'">
+    <md-input-container>
+      <label>Street</label>
+      <input type="text" ng-model="$ctrl.address.street" name="street" class="form-input" required>
+      <div ng-show="!$ctrl.address.street && addressForm.street.$touched" class="error-message">
+        Street is required.
+      </div>
+    </md-input-container>
+
+    <md-input-container>
+      <label>City</label>
+      <input type="text" ng-model="$ctrl.address.city" name="city" class="form-input" required>
+      <div ng-show="!$ctrl.address.city && addressForm.city.$touched" class="error-message">
+        City is required.
+      </div>
+    </md-input-container>
+
+    <md-input-container>
+      <label>State</label>
+      <input type="text" ng-model="$ctrl.address.state" name="state" class="form-input" required>
+      <div ng-show="!$ctrl.address.state && addressForm.state.$touched" class="error-message">
+        State is required.
+      </div>
+    </md-input-container>
+
+    <md-input-container>
+      <label>Zip Code</label>
+      <input 
+        type="text" 
+        ng-model="$ctrl.address.zipCode" 
+        name="zipCode" 
+        ng-pattern="/^[0-9]{2}-[0-9]{3}$/" 
+        class="form-input" 
+        required
+      />
+      <div ng-show="!$ctrl.address.zipCode && addressForm.zipCode.$touched" class="error-message">
+        Zip Code is required.
+      </div>
+      <div ng-show="addressForm.zipCode.$error.pattern && addressForm.zipCode.$touched" class="error-message">
+        Zip Code must be in the format XX-XXX.
+      </div>
+    </md-input-container>
+
+    <md-input-container>
+      <label>Country</label>
+      <input type="text" ng-model="$ctrl.address.country" name="country" class="form-input" required>
+      <div ng-show="!$ctrl.address.country && addressForm.country.$touched" class="error-message">
+        Country is required.
+      </div>
+    </md-input-container>
+  </div>
+
+</div>

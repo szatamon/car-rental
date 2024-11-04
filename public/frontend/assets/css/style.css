@@ -12,4 +12,14 @@ body {
   md-button {
     margin: 5px;
   }
+
+  .even-item {
+    background-color: #f9f9f9;
+  }
+  
+  .odd-item {
+    background-color: #e0e0e0;
+  }
+
+  
   

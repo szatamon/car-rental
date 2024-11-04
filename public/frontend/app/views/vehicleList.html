@@ -16,7 +16,7 @@
     </md-list-item>
     <md-divider></md-divider>
 
-    <md-list-item ng-repeat="vehicle in vehicles">
+    <md-list-item ng-repeat="vehicle in vehicles" ng-class="{'odd-item': $index % 2 !== 0, 'even-item': $index % 2 === 0}">
       <div layout="row" layout-align="space-between center" style="width: 100%;">
         <p>
           {{ vehicle.brand }} - {{ vehicle.registrationNumber }} - {{ vehicle.vin }}

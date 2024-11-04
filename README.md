@@ -29,10 +29,13 @@ The project is available at: http://localhost:8080
 
 ## Static Code Analysis
 
-  ```bash
+   ```bash
   vendor/bin/phpstan
+   ```
+## Run Tests
 
+To run tests, execute the following command from the car-rental-php Docker container:
 
-
-
-
+   ```bash
+  vendor/bin/phpunit
+   ```

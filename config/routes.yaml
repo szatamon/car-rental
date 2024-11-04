@@ -39,3 +39,7 @@ carbrand_list:
     path: /api/car-brands
     controller: App\Module\CarBrand\Controller\CarBrandController::getAllCarBrands
     methods: GET
+
+nelmio_api_doc:
+    resource: '../vendor/nelmio/api-doc-bundle/config/routing/swaggerui.xml'
+    prefix: /api/doc

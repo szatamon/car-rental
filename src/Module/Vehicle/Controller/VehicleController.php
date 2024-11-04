@@ -19,7 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class VehicleController extends AbstractController
 {
     use AddressTrait;
-
+    
+    /**
+     * @OA\Get(
+     *     path="/api/vehicles",
+     *     summary="Get list of all vehicles",
+     *     @OA\Response(response=200, description="List of vehicles")
+     * )
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(VehicleRepository $vehicleRepository): JsonResponse
     {
@@ -44,6 +51,21 @@ class VehicleController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/vehicles/{id}",
+     *     summary="Get details of a specific vehicle",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the vehicle",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Vehicle details"),
+     *     @OA\Response(response=404, description="Vehicle not found")
+     * )
+     */
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Vehicle $vehicle): JsonResponse
     {
@@ -65,6 +87,31 @@ class VehicleController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/vehicles",
+     *     summary="Create a new vehicle",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="registrationNumber", type="string"),
+     *             @OA\Property(property="vin", type="string"),
+     *             @OA\Property(property="clientEmail", type="string"),
+     *             @OA\Property(property="brand", type="object", @OA\Property(property="id", type="integer")),
+     *             @OA\Property(property="customerAddress", type="object",
+     *                 @OA\Property(property="street", type="string"),
+     *                 @OA\Property(property="city", type="string"),
+     *                 @OA\Property(property="state", type="string"),
+     *                 @OA\Property(property="zipCode", type="string"),
+     *                 @OA\Property(property="country", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Vehicle created"),
+     *     @OA\Response(response=400, description="Invalid input")
+     * )
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(
         Request $request,
@@ -96,6 +143,38 @@ class VehicleController extends AbstractController
         return $this->json($vehicle, 201);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/vehicles/{id}",
+     *     summary="Update an existing vehicle",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the vehicle",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="registrationNumber", type="string"),
+     *             @OA\Property(property="vin", type="string"),
+     *             @OA\Property(property="clientEmail", type="string"),
+     *             @OA\Property(property="brand", type="object", @OA\Property(property="id", type="integer")),
+     *             @OA\Property(property="customerAddress", type="object",
+     *                 @OA\Property(property="street", type="string"),
+     *                 @OA\Property(property="city", type="string"),
+     *                 @OA\Property(property="state", type="string"),
+     *                 @OA\Property(property="zipCode", type="string"),
+     *                 @OA\Property(property="country", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Vehicle updated"),
+     *     @OA\Response(response=400, description="Invalid input")
+     * )
+     */
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
 public function update(
     Request $request,
@@ -136,7 +215,20 @@ public function update(
     return $this->json($vehicle);
 }
 
-
+    /**
+     * @OA\Delete(
+     *     path="/api/vehicles/{id}",
+     *     summary="Delete a vehicle",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the vehicle",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Vehicle deleted")
+     * )
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Vehicle $vehicle, EntityManagerInterface $em): JsonResponse
     {

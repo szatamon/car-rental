@@ -29,6 +29,8 @@ The project is available at: http://localhost:8080
 
 ## Static Code Analysis
 
+To perform static code analysis, run the following command from the car-rental-php Docker container:
+
    ```bash
   vendor/bin/phpstan
    ```

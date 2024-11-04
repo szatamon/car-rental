@@ -2,7 +2,6 @@
 
 namespace App\Module\CarBrand\Controller;
 
-
 use App\Module\CarBrand\Entity\CarBrand;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

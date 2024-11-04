@@ -2,12 +2,10 @@
 
 namespace App\Module\Vehicle\Controller;
 
-use App\Module\Vehicle\Entity\Vehicle;
-use App\Module\CarBrand\Entity\CarBrand;
-use App\Module\Adress\Entity\Address;
-use App\Module\Vehicle\Repository\VehicleRepository;
-use App\Module\CarBrand\Repository\CarBrandRepository;
 use App\Module\Address\Repository\AddressRepository;
+use App\Module\CarBrand\Repository\CarBrandRepository;
+use App\Module\Vehicle\Entity\Vehicle;
+use App\Module\Vehicle\Repository\VehicleRepository;
 use App\Traits\AddressTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,11 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class VehicleController extends AbstractController
 {
     use AddressTrait;
-    
+
     /**
      * @OA\Get(
      *     path="/api/vehicles",
      *     summary="Get list of all vehicles",
+     *
      *     @OA\Response(response=200, description="List of vehicles")
      * )
      */
@@ -31,7 +30,7 @@ class VehicleController extends AbstractController
     public function list(VehicleRepository $vehicleRepository): JsonResponse
     {
         $vehicles = $vehicleRepository->findAll();
-        
+
         $data = array_map(function (Vehicle $vehicles) {
             return [
                 'id' => $vehicles->getId(),
@@ -55,13 +54,16 @@ class VehicleController extends AbstractController
      * @OA\Get(
      *     path="/api/vehicles/{id}",
      *     summary="Get details of a specific vehicle",
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID of the vehicle",
      *         required=true,
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\Response(response=200, description="Vehicle details"),
      *     @OA\Response(response=404, description="Vehicle not found")
      * )
@@ -83,7 +85,7 @@ class VehicleController extends AbstractController
                 'country' => $vehicle->getClientAddress()->getCountry(),
             ] : null,
         ];
-    
+
         return $this->json($data);
     }
 
@@ -91,10 +93,13 @@ class VehicleController extends AbstractController
      * @OA\Post(
      *     path="/api/vehicles",
      *     summary="Create a new vehicle",
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="registrationNumber", type="string"),
      *             @OA\Property(property="vin", type="string"),
      *             @OA\Property(property="clientEmail", type="string"),
@@ -108,6 +113,7 @@ class VehicleController extends AbstractController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(response=201, description="Vehicle created"),
      *     @OA\Response(response=400, description="Invalid input")
      * )
@@ -117,9 +123,8 @@ class VehicleController extends AbstractController
         Request $request,
         CarBrandRepository $carBrandRepository,
         AddressRepository $addressRepository,
-        EntityManagerInterface $em
-    ): JsonResponse
-    {
+        EntityManagerInterface $em,
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
         $carBrand = $carBrandRepository->find($data['brand']['id']);
@@ -131,7 +136,7 @@ class VehicleController extends AbstractController
         $vehicle->setVin($data['vin']);
         $vehicle->setClientEmail($data['clientEmail'] ?? null);
         $vehicle->setBrand($carBrand);
-        if($data['customerAddress']) {
+        if ($data['customerAddress']) {
             $this->setAddressRepository($addressRepository);
             $clientAddress = $this->findOrCreateAddress($data['customerAddress']);
             $vehicle->setClientAddress($clientAddress);
@@ -147,17 +152,22 @@ class VehicleController extends AbstractController
      * @OA\Put(
      *     path="/api/vehicles/{id}",
      *     summary="Update an existing vehicle",
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID of the vehicle",
      *         required=true,
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="registrationNumber", type="string"),
      *             @OA\Property(property="vin", type="string"),
      *             @OA\Property(property="clientEmail", type="string"),
@@ -171,61 +181,64 @@ class VehicleController extends AbstractController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(response=200, description="Vehicle updated"),
      *     @OA\Response(response=400, description="Invalid input")
      * )
      */
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
-public function update(
-    Request $request,
-    Vehicle $vehicle,
-    CarBrandRepository $carBrandRepository,
-    AddressRepository $addressRepository,
-    EntityManagerInterface $em
-): JsonResponse
-{
-    $data = json_decode($request->getContent(), true);
+    public function update(
+        Request $request,
+        Vehicle $vehicle,
+        CarBrandRepository $carBrandRepository,
+        AddressRepository $addressRepository,
+        EntityManagerInterface $em,
+    ): JsonResponse {
+        $data = json_decode($request->getContent(), true);
 
-    // Znalezienie marki pojazdu
-    if (isset($data['brand']['id'])) {
-        $carBrand = $carBrandRepository->find($data['brand']['id']);
-        if (!$carBrand) {
-            return $this->json(['error' => 'Invalid brand ID'], 400);
+        // Znalezienie marki pojazdu
+        if (isset($data['brand']['id'])) {
+            $carBrand = $carBrandRepository->find($data['brand']['id']);
+            if (!$carBrand) {
+                return $this->json(['error' => 'Invalid brand ID'], 400);
+            }
+            $vehicle->setBrand($carBrand);
         }
-        $vehicle->setBrand($carBrand);
+
+        // Aktualizacja podstawowych pól
+        $vehicle->setRegistrationNumber($data['registrationNumber'] ?? $vehicle->getRegistrationNumber());
+        $vehicle->setVin($data['vin'] ?? $vehicle->getVin());
+        $vehicle->setClientEmail($data['clientEmail'] ?? $vehicle->getClientEmail());
+
+        // Aktualizacja adresu klienta, jeśli jest podany
+        if (isset($data['customerAddress'])) {
+            $this->setAddressRepository($addressRepository);
+            $clientAddress = $this->findOrCreateAddress($data['customerAddress']);
+            $vehicle->setClientAddress($clientAddress);
+        } else {
+            // Jeśli adres nie jest podany, można usunąć bieżący adres lub pozostawić bez zmian
+            $vehicle->setClientAddress(null); // opcjonalnie
+        }
+
+        $em->flush();
+
+        return $this->json($vehicle);
     }
-
-    // Aktualizacja podstawowych pól
-    $vehicle->setRegistrationNumber($data['registrationNumber'] ?? $vehicle->getRegistrationNumber());
-    $vehicle->setVin($data['vin'] ?? $vehicle->getVin());
-    $vehicle->setClientEmail($data['clientEmail'] ?? $vehicle->getClientEmail());
-
-    // Aktualizacja adresu klienta, jeśli jest podany
-    if (isset($data['customerAddress'])) {
-        $this->setAddressRepository($addressRepository);
-        $clientAddress = $this->findOrCreateAddress($data['customerAddress']);
-        $vehicle->setClientAddress($clientAddress);
-    } else {
-        // Jeśli adres nie jest podany, można usunąć bieżący adres lub pozostawić bez zmian
-        $vehicle->setClientAddress(null); // opcjonalnie
-    }
-
-    $em->flush();
-
-    return $this->json($vehicle);
-}
 
     /**
      * @OA\Delete(
      *     path="/api/vehicles/{id}",
      *     summary="Delete a vehicle",
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID of the vehicle",
      *         required=true,
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\Response(response=200, description="Vehicle deleted")
      * )
      */

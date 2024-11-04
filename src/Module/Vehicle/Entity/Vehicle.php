@@ -2,9 +2,9 @@
 
 namespace App\Module\Vehicle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Module\Address\Entity\Address;
 use App\Module\CarBrand\Entity\CarBrand;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'vehicle')]
@@ -53,6 +53,7 @@ class Vehicle
     public function setRegistrationNumber(string $registrationNumber): self
     {
         $this->registrationNumber = $registrationNumber;
+
         return $this;
     }
 
@@ -64,6 +65,7 @@ class Vehicle
     public function setVin(string $vin): self
     {
         $this->vin = $vin;
+
         return $this;
     }
 
@@ -71,11 +73,12 @@ class Vehicle
     {
         return $this->clientEmail;
     }
-    
+
     public function setClientEmail(?string $clientEmail): self
     {
         $this->clientEmail = $clientEmail;
         $this->updateRentalStatus();
+
         return $this;
     }
 
@@ -97,6 +100,7 @@ class Vehicle
     public function setBrand(CarBrand $brand): self
     {
         $this->brand = $brand;
+
         return $this;
     }
 
@@ -108,6 +112,7 @@ class Vehicle
     public function setClientAddress(?Address $clientAddress): self
     {
         $this->clientAddress = $clientAddress;
+
         return $this;
     }
 

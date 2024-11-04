@@ -16,9 +16,6 @@ trait AddressTrait
 
     /**
      * Finds an existing address or creates a new one based on the provided data.
-     *
-     * @param array $data
-     * @return Address
      */
     public function findOrCreateAddress(array $data): Address
     {

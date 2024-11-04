@@ -2,9 +2,9 @@
 
 namespace App\Module\CarBrand\DataFixtures;
 
+use App\Module\CarBrand\Entity\CarBrand;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Module\CarBrand\Entity\CarBrand;
 
 class CarBrandFixtures extends Fixture
 {
@@ -20,7 +20,7 @@ class CarBrandFixtures extends Fixture
             'Audi',
             'Volkswagen',
             'Nissan',
-            'Hyundai'
+            'Hyundai',
         ];
 
         foreach ($brands as $brandName) {

@@ -196,7 +196,6 @@ class VehicleController extends AbstractController
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
-        // Znalezienie marki pojazdu
         if (isset($data['brand']['id'])) {
             $carBrand = $carBrandRepository->find($data['brand']['id']);
             if (!$carBrand) {
@@ -205,18 +204,15 @@ class VehicleController extends AbstractController
             $vehicle->setBrand($carBrand);
         }
 
-        // Aktualizacja podstawowych pól
         $vehicle->setRegistrationNumber($data['registrationNumber'] ?? $vehicle->getRegistrationNumber());
         $vehicle->setVin($data['vin'] ?? $vehicle->getVin());
         $vehicle->setClientEmail($data['clientEmail'] ?? $vehicle->getClientEmail());
 
-        // Aktualizacja adresu klienta, jeśli jest podany
         if (isset($data['customerAddress'])) {
             $this->setAddressRepository($addressRepository);
             $clientAddress = $this->findOrCreateAddress($data['customerAddress']);
             $vehicle->setClientAddress($clientAddress);
         } else {
-            // Jeśli adres nie jest podany, można usunąć bieżący adres lub pozostawić bez zmian
             $vehicle->setClientAddress(null); // opcjonalnie
         }
 

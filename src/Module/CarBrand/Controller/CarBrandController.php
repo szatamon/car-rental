@@ -20,13 +20,10 @@ class CarBrandController extends AbstractController
     #[Route('/api/carbrands', name: 'get_all_car_brands', methods: ['GET'])]
     public function getAllCarBrands(): JsonResponse
     {
-        // Pobieranie repozytorium CarBrand
         $carBrandRepository = $this->entityManager->getRepository(CarBrand::class);
 
-        // Pobranie wszystkich marek samochodów
         $carBrands = $carBrandRepository->findAll();
 
-        // Mapowanie wyników do tablicy prostych danych
         $data = array_map(function (CarBrand $carBrand) {
             return [
                 'id' => $carBrand->getId(),
@@ -34,7 +31,6 @@ class CarBrandController extends AbstractController
             ];
         }, $carBrands);
 
-        // Zwracanie odpowiedzi JSON
         return new JsonResponse($data);
     }
 }

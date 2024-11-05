@@ -14,9 +14,14 @@ To build the project, follow these steps:
 
    ```bash
    docker-compose build --force-rm --no-cache
+
+   docker-compose up --build -d
+
 3. To run migrations from the car-rental-php Docker container, execute:
 
    ```bash
+   composer install
+   
    php bin/console doctrine:migrations:migrate
 
 4. To load fixtures from the car-rental-php Docker container, execute:
